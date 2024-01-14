@@ -8,32 +8,32 @@ Given an integer array nums and an integer k, return the k most frequent element
 
 class Solution {
 public:
+    static bool cmp(pair<int,int>a , pair<int,int>b)
+    {
+        return a.first>b.first;
+    }
     vector<int> topKFrequent(vector<int>& nums, int k) {
         unordered_map<int,int> map;
-        vector<pair<int, int>> ans;
+        vector<pair<int,int>> v;
         vector<int> res;
-        set<int> set;
         for(int i=0;i<nums.size();i++)
         {
             map[nums[i]]++;
-            set.insert(nums[i]);
         }
-
-        for (auto it = set.begin(); it != set.end(); it++)
+        for(auto m: map)
         {
-            pair<int, int> temp;
-            temp.first = map[*it];
-            // second part of the pair
-            temp.second = *it;
-            ans.push_back(temp);
+            pair<int,int> p;
+            p.first = m.second;
+            p.second = m.first;
+
+            v.push_back(p);
         }
 
-        sort(ans.begin(), ans.end(), greater <>());
+        sort(v.begin(), v.end(), cmp);
 
         for(int i=0;i<k;i++)
-        {
-            
-            res.push_back(ans[i].second);
+        {  
+            res.push_back(v[i].second);
         }
         return res;
     }
