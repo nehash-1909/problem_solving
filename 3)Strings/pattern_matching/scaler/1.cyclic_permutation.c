@@ -8,38 +8,37 @@ where k can be any integer from 0 to N-1.
 *********************************************************************************************************************************/
 // Solution
 
-vector<int> buildLPS(string str)
+vector<int> lps(string s)
 {
-    vector<int> lps(str.length(),0);
-    lps[0] = 0;
-    int x;
-    for(int i=1;i<str.length();i++)
+    int n = s.length();
+    vector<int> lps_array(n,0);
+    lps_array[0] = 0;
+    for(int i =1;i<n;i++)
     {
-        int x = lps[i-1];
-        while(str[x] != str[i])
+        int x = lps_array[i-1];
+        while(s[x] != s[i])
         {
             if(x == 0)
             {
                 x = -1;
                 break;
             }
-            x = lps[x-1];
+            x = lps_array[x-1];
         }
-        lps[i] = x+1; 
+        lps_array[i] = x+1;
     }
-    return lps;
+    return lps_array;
 }
-
 int Solution::solve(string A, string B) {
-    string str = A + '$' + B + B.substr(0, B.size() - 1);
-    vector<int> lps = buildLPS(str);
-    int count = 0;
-    for(int i=0;i<str.length();i++)
+    int counter = 0;
+    string x = A + '$' + B + B.substr(0, B.size() - 1); // so that it doesn't count intial string twice
+    vector<int> lps_array = lps(x);
+    for(int i=A.length()+1;i<x.length();i++)
     {
-        if(lps[i] == A.length())
+        if(lps_array[i] == A.length())
         {
-            count++;
+            counter++;
         }
     }
-    return count;
+    return counter;
 }
